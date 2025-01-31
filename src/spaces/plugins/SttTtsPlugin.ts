@@ -5,7 +5,7 @@ import path from 'path';
 import { spawn } from 'child_process';
 import { Plugin, AudioDataWithUser } from '../types';
 import { Space } from '../core/Space';
-import { JanusClient } from '../core/JanusClient';
+// import { JanusClient } from '../core/JanusClient';
 
 interface PluginConfig {
   openAiApiKey?: string; // for STT & ChatGPT
@@ -30,7 +30,7 @@ interface PluginConfig {
  */
 export class SttTtsPlugin implements Plugin {
   private space?: Space;
-  private janus?: JanusClient;
+  // private janus?: JanusClient;
 
   // OpenAI + ElevenLabs
   private openAiApiKey?: string;
@@ -72,7 +72,7 @@ export class SttTtsPlugin implements Plugin {
     );
 
     this.space = params.space;
-    this.janus = (this.space as any)?.janusClient as JanusClient | undefined;
+    // this.janus = (this.space as any)?.janusClient as JanusClient | undefined;
 
     const config = params.pluginConfig as PluginConfig;
     this.openAiApiKey = config?.openAiApiKey;
@@ -199,10 +199,10 @@ export class SttTtsPlugin implements Plugin {
     );
 
     // 7) Push frames to Janus
-    if (this.janus) {
-      await this.streamToJanus(pcm, 48000);
-      console.log('[SttTtsPlugin] TTS => done streaming to space');
-    }
+    // if (this.janus) {
+    //   await this.streamToJanus(pcm, 48000);
+    //   console.log('[SttTtsPlugin] TTS => done streaming to space');
+    // }
   }
 
   /**
@@ -432,7 +432,7 @@ export class SttTtsPlugin implements Plugin {
       const frame = new Int16Array(FRAME_SIZE);
       frame.set(samples.subarray(offset, offset + FRAME_SIZE));
 
-      this.janus?.pushLocalAudio(frame, sampleRate, 1);
+      // this.janus?.pushLocalAudio(frame, sampleRate, 1);
       await new Promise((r) => setTimeout(r, 10));
     }
   }
@@ -445,10 +445,10 @@ export class SttTtsPlugin implements Plugin {
     const pcm = await this.convertMp3ToPcm(ttsAudio, 48000);
 
     // 3) Stream to Janus
-    if (this.janus) {
-      await this.streamToJanus(pcm, 48000);
-      console.log('[SttTtsPlugin] speakText => done streaming to space');
-    }
+    // if (this.janus) {
+    //   await this.streamToJanus(pcm, 48000);
+    //   console.log('[SttTtsPlugin] speakText => done streaming to space');
+    // }
   }
 
   /**

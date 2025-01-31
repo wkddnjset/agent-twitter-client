@@ -37,11 +37,11 @@ export class IdleMonitorPlugin implements Plugin {
     });
 
     // Patch space.pushAudio to update lastLocalAudioMs
-    const originalPushAudio = this.space.pushAudio.bind(this.space);
-    this.space.pushAudio = (samples, sampleRate) => {
-      this.lastLocalAudioMs = Date.now();
-      originalPushAudio(samples, sampleRate);
-    };
+    // const originalPushAudio = this.space.pushAudio.bind(this.space);
+    // this.space.pushAudio = (samples, sampleRate) => {
+    //   this.lastLocalAudioMs = Date.now();
+    //   originalPushAudio(samples, sampleRate);
+    // };
 
     // Periodically check for silence
     this.checkInterval = setInterval(() => this.checkIdle(), this.checkEveryMs);
